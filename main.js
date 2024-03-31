@@ -13,10 +13,10 @@ const gltfLoader = new GLTFLoader();
 gltfLoader.load("./assets/pokeball.glb", (gltf) => {
   pokeball = gltf.scene;
 
-  pokeball.position.x = 1.2;
+  pokeball.position.x = 1;
   pokeball.position.z = 0.5;
-  pokeball.rotation.x = Math.PI * 0.2;
-  pokeball.rotation.z = Math.PI * 0.15;
+  // pokeball.rotation.x = Math.PI * 0.2;
+  // pokeball.rotation.z = Math.PI * 0.15;
 
   const radius = 0.5;
   pokeball.scale.set(radius, radius, radius);
@@ -26,14 +26,17 @@ gltfLoader.load("./assets/pokeball.glb", (gltf) => {
 // Scroll
 const transformPokeball = [
   {
-    rotationZ: 0.45,
-    positionX: 1.5,
+    rotationY: 0,
+    rotationZ: 0,
+    positionX: 1.3,
   },
   {
-    rotationZ: -0.45,
+    rotationY: Math.PI,
+    rotationZ: -0.15,
     positionX: -1.5,
   },
   {
+    rotationY: 0,
     rotationZ: 0.0314,
     positionX: 0,
   },
@@ -52,6 +55,7 @@ window.addEventListener("scroll", () => {
       gsap.to(pokeball.rotation, {
         duration: 1.5,
         ease: "power2.inOut",
+        y: transformPokeball[currentSection].rotationY,
         z: transformPokeball[currentSection].rotationZ,
       });
       gsap.to(pokeball.position, {
@@ -113,7 +117,7 @@ const tick = () => {
   lastElapsetTime = elapsedTime;
 
   if (!!pokeball) {
-    pokeball.position.y = Math.sin(elapsedTime * 0.5) * 0.1 - 0.1 - 0.5;
+    pokeball.position.y = Math.sin(elapsedTime * 0.5) * 0.1 - 0.1 - 1;
   }
 
   console.log("tick");
