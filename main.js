@@ -10,12 +10,12 @@ const scene = new THREE.Scene();
 // GLTF Loader
 let pokeball = null;
 const gltfLoader = new GLTFLoader();
-gltfLoader.load("./assets/pokeball.glb", (gltf) => {
+gltfLoader.load("./assets/t34.glb", (gltf) => {
   pokeball = gltf.scene;
 
   pokeball.position.x = 1;
   pokeball.position.z = 0.5;
-  pokeball.position.y = -1.2
+  pokeball.position.y = -1.2;
   // pokeball.rotation.x = Math.PI * 0.2;
   // pokeball.rotation.z = Math.PI * 0.15;
 
@@ -27,21 +27,21 @@ gltfLoader.load("./assets/pokeball.glb", (gltf) => {
 // Scroll
 const transformPokeball = [
   {
-    scale: {x: 0.5, y: 0.5, z: 0.5},
+    scale: { x: 0.5, y: 0.5, z: 0.5 },
     rotationY: 0,
     rotationZ: 0,
     positionX: 1,
     positionY: -1.2,
   },
   {
-    scale: {x: 2, y: 2, z: 2},
+    scale: { x: 2, y: 2, z: 2 },
     rotationY: 0,
     rotationZ: -0.15,
     positionX: -1.5,
     positionY: -5,
   },
   {
-    scale: {x: 0.5, y: 0.5, z: 0.5},
+    scale: { x: 0.5, y: 0.5, z: 0.5 },
     rotationY: 2 * Math.PI,
     rotationZ: 0.0314,
     positionX: 0,
@@ -54,7 +54,7 @@ let currentSection = 0;
 window.addEventListener("scroll", () => {
   scrollY = window.scrollY;
   const newSection = Math.round(scrollY / sizes.height);
-  console.log(newSection);
+  // console.log(newSection);
 
   if (newSection != currentSection) {
     currentSection = newSection;
@@ -71,7 +71,8 @@ window.addEventListener("scroll", () => {
         x: transformPokeball[currentSection].positionX,
         y: transformPokeball[currentSection].positionY,
       });
-      gsap.to(pokeball.scale, { // Добавлено
+      gsap.to(pokeball.scale, {
+        // Добавлено
         duration: 1.5,
         ease: "power2.inOut",
         ...transformPokeball[currentSection].scale,
@@ -129,7 +130,7 @@ const tick = () => {
   const deltaTime = elapsedTime - lastElapsetTime;
   lastElapsetTime = elapsedTime;
 
-  console.log("tick");
+  // console.log("tick");
   renderer.render(scene, camera);
   window.requestAnimationFrame(tick);
 };
