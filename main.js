@@ -10,12 +10,12 @@ const scene = new THREE.Scene();
 // GLTF Loader
 let pokeball = null;
 const gltfLoader = new GLTFLoader();
-gltfLoader.load("./assets/t34.glb", (gltf) => {
+gltfLoader.load("./public/model/t34.glb", (gltf) => {
   pokeball = gltf.scene;
 
   pokeball.position.x = 1;
-  pokeball.position.z = 0.5;
-  pokeball.position.y = -1.2;
+  pokeball.position.z = -0.5;
+  pokeball.position.y = -0.8;
   // pokeball.rotation.x = Math.PI * 0.2;
   // pokeball.rotation.z = Math.PI * 0.15;
 
@@ -31,19 +31,19 @@ const transformPokeball = [
     rotationY: 0,
     rotationZ: 0,
     positionX: 1,
-    positionY: -1.2,
+    positionY: -0.8,
   },
   {
     scale: { x: 2, y: 2, z: 2 },
-    rotationY: 0,
-    rotationZ: -0.15,
-    positionX: -1.5,
-    positionY: -5,
+    rotationY: Math.PI / 2,
+    rotationZ: 0,
+    positionX: -1.2,
+    positionY: -3,
   },
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
     rotationY: 2 * Math.PI,
-    rotationZ: 0.0314,
+    rotationZ: 0,
     positionX: 0,
     positionY: -1.2,
   },
