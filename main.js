@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import gsap from "gsap";
 const canvas = document.querySelector("canvas.webgl");
-const modelThree = "./public/t34.glb";
+const modelThree = "./t34.glb";
 // Scene
 const scene = new THREE.Scene();
 
