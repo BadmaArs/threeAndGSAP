@@ -132,12 +132,12 @@ body {
 }
 section {
   height: 100vh;
-  width: 100vw;
+  width: 99vw;
   scroll-snap-align: start;
   position: relative;
 }
 section .container {
-  max-width: 1360px;
+  max-width: 1460px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -145,6 +145,7 @@ section .container {
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
   align-items: center;
   justify-content: flex-start;
 }
@@ -167,7 +168,13 @@ section.two .container {
   justify-content: center;
   flex-direction: column;
 }
-
+.bg {
+  height: auto;
+  min-width: 750px;
+  padding: 30px;
+  border-radius: 30px;
+  background-color: rgba(255, 229, 190, 0.7);
+}
 h1 {
   position: absolute;
   top: 50%;

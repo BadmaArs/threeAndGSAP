@@ -12,9 +12,12 @@ const gltfLoader = new GLTFLoader();
 gltfLoader.load(modelThree, (gltf) => {
   pokeball = gltf.scene;
 
-  pokeball.position.x = 1;
-  pokeball.position.z = -0.5;
-  pokeball.position.y = -0.8;
+  pokeball.rotation.y = -4.7;
+  pokeball.rotation.z = 0;
+  pokeball.position.x = -0.7;
+  pokeball.position.y = -0.1;
+  pokeball.position.z = 2;
+  // pokeball.rotation.x = 0.1;
   // pokeball.rotation.x = Math.PI * 0.2;
   // pokeball.rotation.z = Math.PI * 0.15;
 
@@ -27,24 +30,45 @@ gltfLoader.load(modelThree, (gltf) => {
 const transformPokeball = [
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: 0,
+    rotationY: -4.7,
     rotationZ: 0,
-    positionX: 1,
-    positionY: -0.8,
+    positionX: -0.7,
+    positionY: -0.1,
   },
   {
-    scale: { x: 2, y: 2, z: 2 },
-    rotationY: Math.PI / 2,
+    scale: { x: 0.7, y: 0.7, z: 0.7 },
+    rotationY: -4.5,
     rotationZ: 0,
-    positionX: -1.2,
-    positionY: -3,
+    positionX: 0.4,
+    positionY: -0.1,
   },
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: 2 * Math.PI,
+    rotationY: -4,
     rotationZ: 0,
-    positionX: 0,
-    positionY: -1.2,
+    positionX: -0.8,
+    positionY: -0.5,
+  },
+  {
+    scale: { x: 0.5, y: 0.5, z: 0.5 },
+    rotationY: -5.7,
+    rotationZ: 0,
+    positionX: 0.8,
+    positionY: 0,
+  },
+  {
+    scale: { x: 0.5, y: 0.5, z: 0.5 },
+    rotationY: -4,
+    rotationZ: 0,
+    positionX: -0.8,
+    positionY: 0,
+  },
+  {
+    scale: { x: 0.4, y: 0.4, z: 0.4 },
+    rotationY: -5.7,
+    rotationZ: 0,
+    positionX: 0.8,
+    positionY: -0.1,
   },
 ];
 
@@ -59,20 +83,20 @@ window.addEventListener("scroll", () => {
     currentSection = newSection;
     if (!!pokeball) {
       gsap.to(pokeball.rotation, {
-        duration: 1.5,
+        duration: 4.5,
         ease: "power2.inOut",
         y: transformPokeball[currentSection].rotationY,
         z: transformPokeball[currentSection].rotationZ,
       });
       gsap.to(pokeball.position, {
-        duration: 1.5,
+        duration: 4.5,
         ease: "power2.inOut",
         x: transformPokeball[currentSection].positionX,
         y: transformPokeball[currentSection].positionY,
       });
       gsap.to(pokeball.scale, {
         // Добавлено
-        duration: 1.5,
+        duration: 4.5,
         ease: "power2.inOut",
         ...transformPokeball[currentSection].scale,
       });
@@ -99,6 +123,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.position.z = 5;
+camera.position.y = 0.5;
 scene.add(camera);
 
 // Light
