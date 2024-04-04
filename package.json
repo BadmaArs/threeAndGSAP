@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "deploy": "serve -s dist -l 5000",
     "build": "vite build",
     "preview": "vite preview"

@@ -1,11 +1,13 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import gsap from "gsap";
+
 const canvas = document.querySelector("canvas.webgl");
+const helper = new THREE.AxesHelper()
 const modelThree = "./t34.glb";
 // Scene
 const scene = new THREE.Scene();
-
+scene.add(helper)
 // GLTF Loader
 let pokeball = null;
 const gltfLoader = new GLTFLoader();
@@ -44,30 +46,30 @@ const transformPokeball = [
   },
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
+    rotationY: -2,
+    rotationZ: 0,
+    positionX: -0.5,
+    positionY: -0.1,
+  },
+  {
+    scale: { x: 0.5, y: 0.5, z: 0.5 },
+    rotationY: 55 * Math.PI / 180,
+    rotationZ: 0,
+    positionX: 0.6,
+    positionY: 0,
+  },
+  {
+    scale: { x: 0.7, y: 0.7, z: 0.7 },
     rotationY: -4,
     rotationZ: 0,
     positionX: -0.8,
-    positionY: -0.5,
+    positionY: -0.4,
   },
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
     rotationY: -5.7,
     rotationZ: 0,
-    positionX: 0.8,
-    positionY: 0,
-  },
-  {
-    scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: -4,
-    rotationZ: 0,
-    positionX: -0.8,
-    positionY: 0,
-  },
-  {
-    scale: { x: 0.4, y: 0.4, z: 0.4 },
-    rotationY: -5.7,
-    rotationZ: 0,
-    positionX: 0.8,
+    positionX: 0.6,
     positionY: -0.1,
   },
 ];
@@ -87,6 +89,11 @@ window.addEventListener("scroll", () => {
         ease: "power2.inOut",
         y: transformPokeball[currentSection].rotationY,
         z: transformPokeball[currentSection].rotationZ,
+        onUpdate: function () { // добавил эту строку
+          if(sizes.width < 600) {
+            camera.lookAt(pokeball.position); // и эту строку
+          }
+        }
       });
       gsap.to(pokeball.position, {
         duration: 4.5,
@@ -104,17 +111,18 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// On Reload
-window.onbeforeunload = function () {
-  window.screenTop(0, 0);
-};
 
 // Sizes
+
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
-
+window.addEventListener('resize', function() {
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+})
+console.log(sizes.height, sizes.width)
 // Camera
 const camera = new THREE.PerspectiveCamera(
   35,
@@ -122,8 +130,16 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 5;
-camera.position.y = 0.5;
+if (sizes.width < 600) {
+  camera.position.z = 7
+  camera.position.y = 1
+  camera.position.x = -0.7
+  camera.rotation.x = -0.3
+  camera.rotation.y = 0
+} else {
+  camera.position.z = 5;
+  camera.position.y = 0.5;
+}
 scene.add(camera);
 
 // Light
@@ -139,10 +155,8 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true,
 });
-
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
 renderer.render(scene, camera);
 
 // Animate
