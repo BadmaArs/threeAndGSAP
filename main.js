@@ -2,12 +2,25 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import gsap from "gsap";
 
+// Инициализация и создание сцены и 3д модели
 const canvas = document.querySelector("canvas.webgl");
-const helper = new THREE.AxesHelper()
+// const helper = new THREE.AxesHelper()
+// scene.add(helper)
 const modelThree = "./t34.glb";
 // Scene
 const scene = new THREE.Scene();
-scene.add(helper)
+// Sizes
+// Размеры камеры
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+window.addEventListener('resize', function() {
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+})
+console.log(sizes.height, sizes.width)
+
 // GLTF Loader
 let pokeball = null;
 const gltfLoader = new GLTFLoader();
@@ -19,16 +32,16 @@ gltfLoader.load(modelThree, (gltf) => {
   pokeball.position.x = -0.7;
   pokeball.position.y = -0.1;
   pokeball.position.z = 2;
-  // pokeball.rotation.x = 0.1;
-  // pokeball.rotation.x = Math.PI * 0.2;
-  // pokeball.rotation.z = Math.PI * 0.15;
-
+  if(sizes.width < 600) {
+    pokeball.rotation.y = -5.1 
+  }
   const radius = 0.5;
   pokeball.scale.set(radius, radius, radius);
   scene.add(pokeball);
 });
 
 // Scroll
+// Координаты для секций 
 const transformPokeball = [
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
@@ -73,7 +86,7 @@ const transformPokeball = [
     positionY: -0.1,
   },
 ];
-
+// Анимация и формула нахождения секции
 let scrollY = window.scrollY;
 let currentSection = 0;
 window.addEventListener("scroll", () => {
@@ -111,19 +124,8 @@ window.addEventListener("scroll", () => {
   }
 });
 
-
-// Sizes
-
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-};
-window.addEventListener('resize', function() {
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
-})
-console.log(sizes.height, sizes.width)
 // Camera
+// Настройка камеры для десктопа и мобильных устройств
 const camera = new THREE.PerspectiveCamera(
   35,
   sizes.width / sizes.height,
@@ -143,6 +145,7 @@ if (sizes.width < 600) {
 scene.add(camera);
 
 // Light
+// Настройка света
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
 scene.add(ambientLight);
 
