@@ -19,9 +19,6 @@ gltfLoader.load(modelThree, (gltf) => {
   pokeball.position.x = -0.7;
   pokeball.position.y = -0.1;
   pokeball.position.z = 2;
-  // pokeball.rotation.x = 0.1;
-  // pokeball.rotation.x = Math.PI * 0.2;
-  // pokeball.rotation.z = Math.PI * 0.15;
 
   const radius = 0.5;
   pokeball.scale.set(radius, radius, radius);
@@ -79,7 +76,6 @@ let currentSection = 0;
 window.addEventListener("scroll", () => {
   scrollY = window.scrollY;
   const newSection = Math.round(scrollY / sizes.height);
-  // console.log(newSection);
 
   if (newSection != currentSection) {
     currentSection = newSection;
@@ -90,9 +86,8 @@ window.addEventListener("scroll", () => {
         y: transformPokeball[currentSection].rotationY,
         z: transformPokeball[currentSection].rotationZ,
         onUpdate: function () {
-          // добавил эту строку
           if (sizes.width < 600) {
-            camera.lookAt(pokeball.position); // и эту строку
+            camera.lookAt(pokeball.position);
           }
         },
       });
