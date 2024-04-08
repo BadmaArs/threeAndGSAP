@@ -1,14 +1,15 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
-
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { transformPokeball } from "./transform";
 import gsap from "gsap";
 
 // Инициализация и создание сцены и 3д модели
 const canvas = document.querySelector("canvas.webgl");
 // const helper = new THREE.AxesHelper()
 // scene.add(helper)
-const modelThree = "./t34.glb";
+const modelThree = "../public/t34.glb";
 // Scene
 const scene = new THREE.Scene();
 // Sizes
@@ -25,6 +26,7 @@ console.log(sizes.height, sizes.width);
 
 // GLTF Loader
 let pokeball = null;
+let py = -4.7;
 const gltfLoader = new GLTFLoader();
 const fbxLoader = new FBXLoader();
 gltfLoader.load(
@@ -32,13 +34,16 @@ gltfLoader.load(
   (gltf) => {
     pokeball = gltf.scene;
 
-    pokeball.rotation.y = -4.7;
+    pokeball.rotation.y = py;
     pokeball.rotation.z = 0;
     pokeball.position.x = -0.7;
     pokeball.position.y = -0.1;
     pokeball.position.z = 2;
     if (sizes.width < 600) {
-      pokeball.rotation.y = -5.1;
+      py = -5.1;
+      pokeball.rotation.y = py;
+    } else {
+      py = -4.7;
     }
     const radius = 0.5;
     pokeball.scale.set(radius, radius, radius);
@@ -59,8 +64,8 @@ gltfLoader.load(
       ${preloadSplit[0]}%
     </h3>
     `;
-    if(preloadSplit[0] == '100'){
-      loaderDiv.classList.add('noActive')
+    if (preloadSplit[0] == "100") {
+      loaderDiv.classList.add("noActive");
     }
   },
   (error) => {
@@ -68,53 +73,46 @@ gltfLoader.load(
     console.error(error);
   }
 );
+// Camera
+// Настройка камеры для десктопа и мобильных устройств
+const camera = new THREE.PerspectiveCamera(
+  35,
+  sizes.width / sizes.height,
+  0.1,
+  1000
+);
+if (sizes.width < 600) {
+  camera.position.z = 10;
+  camera.position.y = 1.2;
+  camera.position.x = -0.7;
+  camera.rotation.x = -0.31;
+  camera.rotation.y = 0;
+} else {
+  camera.position.z = 5;
+  camera.position.y = 0.5;
+}
+scene.add(camera);
 
+// renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas,
+  antialias: true,
+  alpha: true,
+});
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.render(scene, camera);
+
+
+// Orbit Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.update();
+controls.enableDamping = true;
+controls.minDistance = 10;
+controls.enableRotate = false;
 // Scroll
 // Координаты для секций
-const transformPokeball = [
-  {
-    scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: -4.7,
-    rotationZ: 0,
-    positionX: -0.7,
-    positionY: -0.1,
-  },
-  {
-    scale: { x: 0.7, y: 0.7, z: 0.7 },
-    rotationY: -4.5,
-    rotationZ: 0,
-    positionX: 0.4,
-    positionY: -0.1,
-  },
-  {
-    scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: -2,
-    rotationZ: 0,
-    positionX: -0.5,
-    positionY: -0.1,
-  },
-  {
-    scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: (55 * Math.PI) / 180,
-    rotationZ: 0,
-    positionX: 0.6,
-    positionY: 0,
-  },
-  {
-    scale: { x: 0.7, y: 0.7, z: 0.7 },
-    rotationY: -4,
-    rotationZ: 0,
-    positionX: -0.8,
-    positionY: -0.4,
-  },
-  {
-    scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: -5.7,
-    rotationZ: 0,
-    positionX: 0.6,
-    positionY: -0.1,
-  },
-];
+
 // Анимация и формула нахождения секции
 let scrollY = window.scrollY;
 let currentSection = 0;
@@ -122,7 +120,12 @@ window.addEventListener("scroll", () => {
   scrollY = window.scrollY;
   const newSection = Math.round(scrollY / sizes.height);
   // console.log(newSection);
-
+  if (newSection === 6) {
+    // проверка, является ли текущая секция седьмой
+    controls.enableRotate = true; // включить вращение
+  } else {
+    controls.enableRotate = false; // отключить вращение в остальных секциях
+  }
   if (newSection != currentSection) {
     currentSection = newSection;
     if (!!pokeball) {
@@ -154,25 +157,6 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// Camera
-// Настройка камеры для десктопа и мобильных устройств
-const camera = new THREE.PerspectiveCamera(
-  35,
-  sizes.width / sizes.height,
-  0.1,
-  1000
-);
-if (sizes.width < 600) {
-  camera.position.z = 7;
-  camera.position.y = 1;
-  camera.position.x = -0.7;
-  camera.rotation.x = -0.3;
-  camera.rotation.y = 0;
-} else {
-  camera.position.z = 5;
-  camera.position.y = 0.5;
-}
-scene.add(camera);
 
 // Light
 // Настройка света
@@ -182,15 +166,6 @@ scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(1, 2, 0);
 scene.add(directionalLight);
-// renderer
-const renderer = new THREE.WebGLRenderer({
-  canvas: canvas,
-  antialias: true,
-  alpha: true,
-});
-renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.render(scene, camera);
 
 // Animate
 const clock = new THREE.Clock();
@@ -200,7 +175,7 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - lastElapsetTime;
   lastElapsetTime = elapsedTime;
-
+  controls.update();
   // console.log("tick");
   renderer.render(scene, camera);
   window.requestAnimationFrame(tick);

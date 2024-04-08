@@ -103,6 +103,7 @@ section.two .container {
   }
   .hero {
     justify-content: end;
+    margin-bottom: 0;
   }
   section.one .container {
     grid-template-areas: "content";
