@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+
 import gsap from "gsap";
 
 // Инициализация и создание сцены и 3д модели
@@ -15,33 +17,60 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
-window.addEventListener('resize', function() {
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
-})
-console.log(sizes.height, sizes.width)
+window.addEventListener("resize", function () {
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+});
+console.log(sizes.height, sizes.width);
 
 // GLTF Loader
 let pokeball = null;
 const gltfLoader = new GLTFLoader();
-gltfLoader.load(modelThree, (gltf) => {
-  pokeball = gltf.scene;
+const fbxLoader = new FBXLoader();
+gltfLoader.load(
+  modelThree,
+  (gltf) => {
+    pokeball = gltf.scene;
 
-  pokeball.rotation.y = -4.7;
-  pokeball.rotation.z = 0;
-  pokeball.position.x = -0.7;
-  pokeball.position.y = -0.1;
-  pokeball.position.z = 2;
-  if(sizes.width < 600) {
-    pokeball.rotation.y = -5.1 
+    pokeball.rotation.y = -4.7;
+    pokeball.rotation.z = 0;
+    pokeball.position.x = -0.7;
+    pokeball.position.y = -0.1;
+    pokeball.position.z = 2;
+    if (sizes.width < 600) {
+      pokeball.rotation.y = -5.1;
+    }
+    const radius = 0.5;
+    pokeball.scale.set(radius, radius, radius);
+    scene.add(pokeball);
+  },
+  (xhr) => {
+    // Этот код будет выполнен в процессе загрузки
+    let preload = (xhr.loaded / xhr.total) * 100 + "";
+    let preloadSplit = preload.split(".");
+    const loaderDiv = document.querySelector(".loader");
+    loaderDiv.innerHTML = `
+    <div class="lineLoader">
+      <div class="inLineLoader" style="width: ${preloadSplit[0]}%"></div>
+    </div>
+    <h3>
+      Пожалуйста подождите <br />
+      Идет загрузка <br />
+      ${preloadSplit[0]}%
+    </h3>
+    `;
+    if(preloadSplit[0] == '100'){
+      loaderDiv.classList.add('noActive')
+    }
+  },
+  (error) => {
+    // Этот код будет выполнен при возникновении ошибки
+    console.error(error);
   }
-  const radius = 0.5;
-  pokeball.scale.set(radius, radius, radius);
-  scene.add(pokeball);
-});
+);
 
 // Scroll
-// Координаты для секций 
+// Координаты для секций
 const transformPokeball = [
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
@@ -66,7 +95,7 @@ const transformPokeball = [
   },
   {
     scale: { x: 0.5, y: 0.5, z: 0.5 },
-    rotationY: 55 * Math.PI / 180,
+    rotationY: (55 * Math.PI) / 180,
     rotationZ: 0,
     positionX: 0.6,
     positionY: 0,
@@ -102,11 +131,12 @@ window.addEventListener("scroll", () => {
         ease: "power2.inOut",
         y: transformPokeball[currentSection].rotationY,
         z: transformPokeball[currentSection].rotationZ,
-        onUpdate: function () { // добавил эту строку
-          if(sizes.width < 600) {
+        onUpdate: function () {
+          // добавил эту строку
+          if (sizes.width < 600) {
             camera.lookAt(pokeball.position); // и эту строку
           }
-        }
+        },
       });
       gsap.to(pokeball.position, {
         duration: 4.5,
@@ -133,11 +163,11 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 if (sizes.width < 600) {
-  camera.position.z = 7
-  camera.position.y = 1
-  camera.position.x = -0.7
-  camera.rotation.x = -0.3
-  camera.rotation.y = 0
+  camera.position.z = 7;
+  camera.position.y = 1;
+  camera.position.x = -0.7;
+  camera.rotation.x = -0.3;
+  camera.rotation.y = 0;
 } else {
   camera.position.z = 5;
   camera.position.y = 0.5;
