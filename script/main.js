@@ -103,13 +103,12 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.render(scene, camera);
 
-
 // Orbit Controls
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.update();
-controls.enableDamping = true;
-controls.minDistance = 10;
-controls.enableRotate = false;
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.update();
+// controls.enableDamping = true;
+// controls.minDistance = 10;
+// controls.enableRotate = false;
 // Scroll
 // Координаты для секций
 
@@ -122,9 +121,9 @@ window.addEventListener("scroll", () => {
   // console.log(newSection);
   if (newSection === 6) {
     // проверка, является ли текущая секция седьмой
-    controls.enableRotate = true; // включить вращение
+    // controls.enableRotate = true; // включить вращение
   } else {
-    controls.enableRotate = false; // отключить вращение в остальных секциях
+    // controls.enableRotate = false; // отключить вращение в остальных секциях
   }
   if (newSection != currentSection) {
     currentSection = newSection;
@@ -157,7 +156,6 @@ window.addEventListener("scroll", () => {
   }
 });
 
-
 // Light
 // Настройка света
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -175,7 +173,7 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - lastElapsetTime;
   lastElapsetTime = elapsedTime;
-  controls.update();
+  // controls.update();
   // console.log("tick");
   renderer.render(scene, camera);
   window.requestAnimationFrame(tick);
