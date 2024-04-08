@@ -112,6 +112,9 @@ section.two .container {
     grid-template-areas: "content";
     width: auto;
   }
+  section {
+    width: 98vw;
+  }
 }
 .bg {
   height: auto;
