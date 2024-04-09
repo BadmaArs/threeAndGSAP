@@ -102,13 +102,6 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.render(scene, camera);
-
-// Orbit Controls
-// const controls = new OrbitControls(camera, renderer.domElement);
-// controls.update();
-// controls.enableDamping = true;
-// controls.minDistance = 10;
-// controls.enableRotate = false;
 // Scroll
 // Координаты для секций
 
@@ -118,13 +111,6 @@ let currentSection = 0;
 window.addEventListener("scroll", () => {
   scrollY = window.scrollY;
   const newSection = Math.round(scrollY / sizes.height);
-  // console.log(newSection);
-  if (newSection === 6) {
-    // проверка, является ли текущая секция седьмой
-    // controls.enableRotate = true; // включить вращение
-  } else {
-    // controls.enableRotate = false; // отключить вращение в остальных секциях
-  }
   if (newSection != currentSection) {
     currentSection = newSection;
     if (!!pokeball) {
@@ -158,10 +144,10 @@ window.addEventListener("scroll", () => {
 
 // Light
 // Настройка света
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
 directionalLight.position.set(1, 2, 0);
 scene.add(directionalLight);
 
@@ -173,8 +159,6 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - lastElapsetTime;
   lastElapsetTime = elapsedTime;
-  // controls.update();
-  // console.log("tick");
   renderer.render(scene, camera);
   window.requestAnimationFrame(tick);
 };

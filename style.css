@@ -95,28 +95,7 @@ section.two .container {
   justify-content: center;
   flex-direction: column;
 }
-@media (max-width: 600px) {
-  section .container {
-    grid-template-columns: 1fr;
-    gap: 0px;
-    padding: 0;
-  }
-  .hero {
-    justify-content: end;
-    margin-bottom: 0;
-  }
-  section.one .container {
-    grid-template-areas: "content";
-    width: auto;
-  }
-  section.two .container {
-    grid-template-areas: "content";
-    width: auto;
-  }
-  section {
-    width: 98vw;
-  }
-}
+
 .bg {
   height: auto;
   width: 414px;
@@ -143,7 +122,7 @@ ul > li::before {
   display: inline-block;
   height: 20px;
   width: 20px;
-  background-image: url('./assets/Ellipse2.png');
+  background-image: url("./assets/Ellipse2.png");
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 10px;
@@ -153,7 +132,7 @@ ul > li::before {
   display: inline-block;
   height: 20px;
   width: 20px;
-  background-image: url('./assets/Ellipse1.png');
+  background-image: url("./assets/Ellipse1.png");
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 10px;
@@ -191,7 +170,7 @@ h2 span {
   line-height: 30px;
   width: 100%;
   font-weight: 400;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 p {
@@ -200,4 +179,30 @@ p {
   font-weight: 300;
   width: 100%;
   display: block;
+}
+
+@media (max-width: 600px) {
+  section .container {
+    grid-template-columns: 1fr;
+    gap: 0px;
+    padding: 0;
+  }
+  .hero {
+    justify-content: end;
+    margin-bottom: 0;
+  }
+  section.one .container {
+    grid-template-areas: "content";
+    width: auto;
+  }
+  section.two .container {
+    grid-template-areas: "content";
+    width: auto;
+  }
+  section {
+    width: 98vw;
+  }
+  h2 span {
+    margin-bottom: 15px;
+  }
 }
