@@ -6,6 +6,6 @@ export default defineConfig({
     assetsInclude: ["**/*.glb"],
   },
   server: {
-    port: 5000,
+    port: 8080,
   },
 });
