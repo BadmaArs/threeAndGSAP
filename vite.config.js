@@ -5,4 +5,7 @@ export default defineConfig({
   build: {
     assetsInclude: ["**/*.glb"],
   },
+  server: {
+    port: 5000,
+  },
 });
