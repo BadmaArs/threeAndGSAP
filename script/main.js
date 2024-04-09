@@ -9,7 +9,7 @@ import gsap from "gsap";
 const canvas = document.querySelector("canvas.webgl");
 // const helper = new THREE.AxesHelper()
 // scene.add(helper)
-const modelThree = "../public/t34.glb";
+const modelThree = "../t34.glb";
 // Scene
 const scene = new THREE.Scene();
 // Sizes
@@ -50,8 +50,11 @@ gltfLoader.load(
     scene.add(pokeball);
   },
   (xhr) => {
-    // Этот код будет выполнен в процессе загрузки
-    let preload = (xhr.loaded / xhr.total) * 100 + "";
+    // Этот код будет выполнен
+    // в процессе загрузки
+    const totalSized = 31062868;
+    console.log(xhr.loaded, xhr.total, xhr.loaded / totalSized);
+    let preload = (xhr.loaded / totalSized) * 100 + "";
     let preloadSplit = preload.split(".");
     const loaderDiv = document.querySelector(".loader");
     loaderDiv.innerHTML = `
@@ -147,7 +150,7 @@ window.addEventListener("scroll", () => {
 const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(1, 2, 0);
 scene.add(directionalLight);
 
