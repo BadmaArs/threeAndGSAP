@@ -119,11 +119,15 @@ section.two .container {
 }
 .bg {
   height: auto;
-  width: 414px;
+  width: 614px;
   padding: 30px;
   border-radius: 30px;
   background-color: rgba(255, 255, 255, 0.85);
   border: 0.2px solid rgb(220, 220, 220);
+}
+.bg img {
+  width: 100%;
+  object-fit: cover;
 }
 .circle > ul {
   display: flex;
@@ -143,7 +147,7 @@ ul > li::before {
   display: inline-block;
   height: 20px;
   width: 20px;
-  background-image: url('./assets/Ellipse2.png');
+  background-image: url("./assets/Ellipse2.png");
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 10px;
@@ -153,7 +157,7 @@ ul > li::before {
   display: inline-block;
   height: 20px;
   width: 20px;
-  background-image: url('./assets/Ellipse1.png');
+  background-image: url("./assets/Ellipse1.png");
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 10px;
