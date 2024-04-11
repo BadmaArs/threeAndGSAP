@@ -69,6 +69,7 @@ section .container {
   height: 100%;
   margin: 0 auto;
   padding: 0 15px;
+  box-sizing: border-box;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -188,8 +189,12 @@ p {
     padding: 0;
   }
   .hero {
+    width: 100vw;
     justify-content: end;
     margin-bottom: 0;
+  }
+  .bg {
+    width: 100%;
   }
   section.one .container {
     grid-template-areas: "content";
@@ -202,7 +207,11 @@ p {
   section {
     width: 98vw;
   }
+  p {
+    font-size: 14px;
+  }
   h2 span {
+    font-size: 20px;
     margin-bottom: 15px;
   }
 }
